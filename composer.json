@@ -1,0 +1,8 @@
+{
+	"name": "mobishift/libcashive",
+	"description": "PHP SDK for Cashive.",
+	"keywords": ["cashive"],
+	"license": "MIT",
+	"require": {
+	},
+}
