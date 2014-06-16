@@ -1,4 +1,4 @@
 libcashive
 ==========
 
-php sdk for Cashive
+PHP SDK for Cashive
