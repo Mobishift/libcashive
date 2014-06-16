@@ -4,5 +4,10 @@
 	"keywords": ["cashive"],
 	"license": "MIT",
 	"require": {
+	},
+	"autoload": {
+		"classmap": [
+			"cashive"
+		]
 	}
 }
