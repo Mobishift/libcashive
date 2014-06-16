@@ -5,11 +5,13 @@
  * @author Deckmon Yang <yanghb@msan.cn>
  */
 
+namespace LibCashive;
+
 /**
  * @author Deckmon
  * @version 1.0
  */
-class Cashive {
+class Client {
     /**
      * @ignore
      */
