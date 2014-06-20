@@ -120,7 +120,7 @@ class Client {
         $url = "{$this->host}{$url}";
         $parameters = $this->signParams($parameters);
         $response = $this->MakeRequest($url, $method, $parameters);
-        return json_decode($response, true);
+        return array('http_code'=>$this->http_code, 'response'=>json_decode($response, true));
     }
 
     /**
