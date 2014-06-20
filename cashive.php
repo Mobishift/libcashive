@@ -7,6 +7,52 @@
 
 namespace LibCashive;
 
+class Response{
+    
+    public $http_code;
+    
+    public $response;
+    
+    public $is_success;
+    
+    function __construct($http_code, $response){
+        $this->http_code = $http_code;
+        $this->response = $response;
+        $this->is_success = ($http_code >= 200 and $http_code < 300);
+    }
+    
+    function get_response(){
+        return $this->response;
+    }
+    
+    function get_errormsg(){
+        if($this->is_success){
+            return "";
+        }
+        if($this->http_code == 403){
+            return "签名错误";
+        }elseif($this->http_code == 404){
+            return "404不存在";
+        }else{
+            foreach($this->response as $key => $value){
+                if($key == "detail"){
+                    return $value;
+                }
+                if($key == "__all__"){
+                    return $value[0];
+                }
+                if(is_array($value)){
+                    return $key.":".$value[0];
+                }else{
+                    return (string) $value;
+                }
+            }
+            return (string) $this->response;
+        }
+    }
+    
+}
+
 /**
  * @author Deckmon
  * @version 1.0
@@ -126,7 +172,8 @@ class Client {
         $url = "{$this->host}{$url}";
         $parameters = $this->signParams($parameters);
         $response = $this->MakeRequest($url, $method, $parameters);
-        return array('code'=>$this->http_code, 'data'=>json_decode($response, true));
+        $res = new Response($this->http_code, json_decode($response, true));
+        return $res;
     }
 
     /**
