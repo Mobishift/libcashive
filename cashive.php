@@ -108,19 +108,25 @@ class Client {
     }
     
     function signParams($parameters){
-        $parameters['rnd'] = $this->generateRandomString();
-        $parameters['time'] = (string) time();
-        $parameters['key'] = $this->key;
-        $sign = $this->makeSign($parameters);
-        $parameters['sign'] = $sign;
-        return $parameters;
+        $new_params = array();
+        foreach($parameters as $key => $value){
+            if($value != ""){
+                $new_params[$key] = $value;
+            }
+        }
+        $new_params['rnd'] = $this->generateRandomString();
+        $new_params['time'] = (string) time();
+        $new_params['key'] = $this->key;
+        $sign = $this->makeSign($new_params);
+        $new_params['sign'] = $sign;
+        return $new_params;
     }
 
     function request($method, $url, $parameters=array()){
         $url = "{$this->host}{$url}";
         $parameters = $this->signParams($parameters);
         $response = $this->MakeRequest($url, $method, $parameters);
-        return array('http_code'=>$this->http_code, 'response'=>json_decode($response, true));
+        return array('code'=>$this->http_code, 'data'=>json_decode($response, true));
     }
 
     /**
