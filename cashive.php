@@ -32,7 +32,7 @@ class Response{
         return $this->response["data"];
     }
     
-    function get_errormsg(){
+    function get_errmsg(){
         if($this->is_success){
             return "";
         }
