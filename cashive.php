@@ -18,37 +18,25 @@ class Response{
     function __construct($http_code, $response){
         $this->http_code = $http_code;
         $this->response = $response;
-        $this->is_success = ($http_code >= 200 and $http_code < 300);
+        $this->is_success = ($http_code >= 200 and $http_code < 300 and $response["code"] == 0);
     }
     
-    function get_response(){
-        return $this->response;
+    function get_errcode(){
+        return $this->response["code"];
+    }
+    
+    function get_data(){
+        if(!$this->is_success){
+            return "";
+        }
+        return $this->response["data"];
     }
     
     function get_errormsg(){
         if($this->is_success){
             return "";
         }
-        if($this->http_code == 403){
-            return "签名错误";
-        }elseif($this->http_code == 404){
-            return "404不存在";
-        }else{
-            foreach($this->response as $key => $value){
-                if($key == "detail"){
-                    return $value;
-                }
-                if($key == "__all__"){
-                    return $value[0];
-                }
-                if(is_array($value)){
-                    return $key.":".$value[0];
-                }else{
-                    return (string) $value;
-                }
-            }
-            return (string) $this->response;
-        }
+        return $this->response["data"];
     }
     
 }
